@@ -62,7 +62,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 font-mono text-sm text-orange/80 mb-6 border border-orange/20 rounded-full px-4 py-1.5 bg-orange/5"
+          className="inline-flex items-center gap-2 font-mono text-base text-orange/80 mb-6 border border-orange/20 rounded-full px-4 py-1.5 bg-orange/5"
         >
           <span className="w-2 h-2 rounded-full bg-orange animate-pulse" />
           SYSTEM.ONLINE :: Available for opportunities
@@ -81,7 +81,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="font-mono text-lg md:text-xl text-white/60 mb-2 h-8"
+          className="font-mono text-xl md:text-2xl text-white/60 mb-2 h-8"
         >
           <span className="text-orange">&gt;</span>{' '}
           <span>{displayed}</span>
@@ -92,7 +92,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="font-inter text-white/40 text-sm md:text-base mb-10 max-w-xl mx-auto"
+          className="font-inter text-white/40 text-base md:text-lg mb-10 max-w-xl mx-auto"
         >
           Software Engineering student at Bahria University Islamabad · Building real products at CodeViel Studio
         </motion.p>
@@ -105,13 +105,13 @@ export default function Hero() {
         >
           <a
             href="#projects"
-            className="font-grotesk font-semibold px-7 py-3 rounded-md bg-orange text-bg hover:bg-orange/90 transition-all duration-200 text-sm"
+            className="font-grotesk font-semibold px-7 py-3 rounded-md bg-orange text-bg hover:bg-orange/90 transition-all duration-200 text-base"
           >
             View Projects
           </a>
           <a
             href="#contact"
-            className="font-grotesk font-semibold px-7 py-3 rounded-md border border-orange/40 text-white hover:border-orange hover:text-orange transition-all duration-200 text-sm"
+            className="font-grotesk font-semibold px-7 py-3 rounded-md border border-orange/40 text-white hover:border-orange hover:text-orange transition-all duration-200 text-base"
           >
             Contact Me
           </a>

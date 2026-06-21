@@ -27,7 +27,7 @@ export default function Navbar() {
             <li key={link}>
               <a
                 href={`#${link.toLowerCase()}`}
-                className="font-inter text-sm text-white/50 hover:text-orange transition-colors duration-200 tracking-wide"
+                className="font-inter text-base text-white/50 hover:text-orange transition-colors duration-200 tracking-wide"
               >
                 {link}
               </a>
@@ -37,7 +37,7 @@ export default function Navbar() {
 
         <a
           href="#contact"
-          className="hidden md:inline-block font-inter text-sm font-medium px-5 py-2 rounded-md border border-orange text-orange hover:bg-orange hover:text-bg transition-all duration-200"
+          className="hidden md:inline-block font-inter text-base font-medium px-5 py-2 rounded-md border border-orange text-orange hover:bg-orange hover:text-bg transition-all duration-200"
         >
           Hire Me
         </a>
@@ -60,7 +60,7 @@ export default function Navbar() {
               key={link}
               href={`#${link.toLowerCase()}`}
               onClick={() => setMenuOpen(false)}
-              className="font-inter text-sm text-white/60 hover:text-orange transition-colors"
+              className="font-inter text-base text-white/60 hover:text-orange transition-colors"
             >
               {link}
             </a>
@@ -68,7 +68,7 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}
-            className="font-inter text-sm font-medium px-4 py-2 rounded-md border border-orange text-orange text-center"
+            className="font-inter text-base font-medium px-4 py-2 rounded-md border border-orange text-orange text-center"
           >
             Hire Me
           </a>
