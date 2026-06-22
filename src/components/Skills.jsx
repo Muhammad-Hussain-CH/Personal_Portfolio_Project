@@ -163,7 +163,7 @@ ctx.fillRect(0, 0, W, H)
       // wireframe
       ctx.save()
       ctx.globalAlpha = 0.35
-      ctx.strokeStyle = '#df7c1f'
+      ctx.strokeStyle = '#fdad01c5'
       ctx.lineWidth = 1.5
       ctx.beginPath()
       ctx.ellipse(cx, cy, R, R * 0.95, 0, 0, Math.PI * 2)
@@ -209,7 +209,7 @@ ctx.fillRect(0, 0, W, H)
         const isFront = z > -0.15
         const alpha = depth * 0.85 + 0.12
         const fontSize = Math.round(Math.max(11, 14 * scale))
-        const iconSize = Math.round(Math.max(14, 22 * scale))
+        const iconSize = Math.round(Math.max(16, 24 * scale))
         const icon = state.icons[idx]
 
         ctx.save()
