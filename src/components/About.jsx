@@ -88,24 +88,7 @@ export default function About() {
 
               <div className="border-t border-orange/10" />
 
-              {/* whoami */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 }}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-orange">➜</span>
-                  <span className="text-white/40">whoami</span>
-                </div>
-                <p className="text-white/60 text-base leading-relaxed pl-4">
-                  I am a Software Engineering student with a passion for building
-                  full-stack web apps and AI-powered tools. Co-founder of
-                  <span className="text-orange"> CodeViel Studio</span>, turning
-                  ideas into real products that ship.
-                </p>
-              </motion.div>
+              
 
               {/* cat mission */}
               <motion.div
@@ -151,7 +134,7 @@ export default function About() {
           >
 
             {/* Who I am */}
-            <div className="rounded-xl border border-orange/15 bg-surface p-6">
+            <div className="rounded-xl border border-orange/25 bg-surface p-6">
               <div className="flex items-center gap-2 mb-3">
                 <span className="w-1.5 h-1.5 rounded-full bg-orange" />
                 <h3 className="font-grotesk font-semibold text-white text-lg">Who I Am</h3>

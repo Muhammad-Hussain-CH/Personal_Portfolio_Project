@@ -4,12 +4,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg:      "#120A08",
-        surface: "#1E1008",
-        orange:  "#F97316",
-        red:     "#EF4444",
-        amber:   "#FBBF24",
-      },
+  bg:      "#120A08",
+  surface: "#1E1008",
+  orange:  "#F97316",
+  red:     "#EF4444",
+  amber:   "#FBBF24",
+},
       fontFamily: {
         grotesk: ["Space Grotesk", "sans-serif"],
         mono:    ["JetBrains Mono", "monospace"],

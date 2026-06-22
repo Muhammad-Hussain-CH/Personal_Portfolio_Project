@@ -149,6 +149,8 @@ export default function Skills() {
       const ctx = canvas.getContext('2d')
       ctx.scale(dpr, dpr)
       ctx.clearRect(0, 0, W, H)
+      ctx.fillStyle = '#1E1008'
+ctx.fillRect(0, 0, W, H)
 
       if (!state.dragging) {
         state.rotY += 0.004
@@ -160,9 +162,9 @@ export default function Skills() {
 
       // wireframe
       ctx.save()
-      ctx.globalAlpha = 0.07
-      ctx.strokeStyle = '#F97316'
-      ctx.lineWidth = 0.8
+      ctx.globalAlpha = 0.35
+      ctx.strokeStyle = '#df7c1f'
+      ctx.lineWidth = 1.5
       ctx.beginPath()
       ctx.ellipse(cx, cy, R, R * 0.95, 0, 0, Math.PI * 2)
       ctx.stroke()
@@ -206,8 +208,8 @@ export default function Skills() {
       projected.forEach(({ sx, sy, scale, depth, skill, idx, z }) => {
         const isFront = z > -0.15
         const alpha = depth * 0.85 + 0.12
-        const fontSize = Math.round(Math.max(9, 12 * scale))
-        const iconSize = Math.round(Math.max(10, 16 * scale))
+        const fontSize = Math.round(Math.max(11, 14 * scale))
+        const iconSize = Math.round(Math.max(14, 22 * scale))
         const icon = state.icons[idx]
 
         ctx.save()
@@ -320,7 +322,7 @@ export default function Skills() {
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.6 }}
           ref={containerRef}
-          className="relative w-full rounded-xl border border-orange/15 bg-surface overflow-hidden"
+          className="relative w-full rounded-xl border border-orange/25 bg-surface overflow-hidden"
         >
           <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-orange/10">
             <span className="w-3 h-3 rounded-full bg-red/70" />
