@@ -15,18 +15,20 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const scrolledClass = theme === 'light'
+    ? 'bg-[#FFF8F5]/90 backdrop-blur-md border-b border-orange/15'
+    : 'bg-bg/90 backdrop-blur-md border-b border-orange/10'
+
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-bg/90 backdrop-blur-md border-b border-orange/10' : 'bg-transparent'
+      scrolled ? scrolledClass : 'bg-transparent'
     }`}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
 
-        {/* Logo */}
         <a href="#" className="font-grotesk font-bold text-xl text-white tracking-tight">
           M<span className="text-orange">H</span>
         </a>
 
-        {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-8">
           {links.map(link => (
             <li key={link}>
@@ -40,7 +42,6 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop right side — theme toggle + hire me */}
         <div className="hidden md:flex items-center gap-3">
           <button
             onClick={toggle}
@@ -57,7 +58,6 @@ export default function Navbar() {
           </a>
         </div>
 
-        {/* Mobile hamburger */}
         <button
           className="md:hidden flex flex-col gap-1.5 p-1"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -69,7 +69,6 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div className="md:hidden bg-surface/95 backdrop-blur-md border-t border-orange/10 px-6 py-4 flex flex-col gap-4">
           {links.map(link => (
@@ -82,8 +81,6 @@ export default function Navbar() {
               {link}
             </a>
           ))}
-
-          {/* Mobile theme toggle */}
           <button
             onClick={toggle}
             className="flex items-center gap-2 font-inter text-base text-white/60 hover:text-orange transition-colors"
@@ -91,7 +88,6 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
             {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
           </button>
-
           <a
             href="#contact"
             onClick={() => setMenuOpen(false)}

@@ -149,9 +149,8 @@ export default function Skills() {
       const ctx = canvas.getContext('2d')
       ctx.scale(dpr, dpr)
       ctx.clearRect(0, 0, W, H)
-      ctx.fillStyle = '#1E1008'
+      ctx.fillStyle = document.documentElement.classList.contains('light') ? '#DDE0EA' : '#1E1008'
 ctx.fillRect(0, 0, W, H)
-
       if (!state.dragging) {
         state.rotY += 0.004
         state.rotX += 0.0008
@@ -228,7 +227,8 @@ ctx.fillRect(0, 0, W, H)
         ctx.beginPath()
         if (ctx.roundRect) ctx.roundRect(rx, ry, pw, ph, ph / 2)
         else { ctx.arc(rx + ph/2, sy, ph/2, Math.PI/2, -Math.PI/2); ctx.arc(rx + pw - ph/2, sy, ph/2, -Math.PI/2, Math.PI/2); ctx.closePath() }
-        ctx.fillStyle = isFront ? skill.color + '18' : 'rgba(18,10,8,0.5)'
+        const isLight = document.documentElement.classList.contains('light')
+ctx.fillStyle = isFront ? skill.color + '18' : (isLight ? 'rgba(221,224,234,0.5)' : 'rgba(18,10,8,0.5)')
         ctx.fill()
 
         // pill border
@@ -324,7 +324,7 @@ ctx.fillRect(0, 0, W, H)
           ref={containerRef}
           className="relative w-full rounded-xl border border-orange/25 bg-surface overflow-hidden"
         >
-          <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-orange/10">
+          <div className="flex items-center gap-2 px-4 py-3 border-b border-orange/10 bg-white/5">
             <span className="w-3 h-3 rounded-full bg-red/70" />
             <span className="w-3 h-3 rounded-full bg-amber/70" />
             <span className="w-3 h-3 rounded-full bg-orange/70" />

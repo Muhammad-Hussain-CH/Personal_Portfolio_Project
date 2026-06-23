@@ -4,7 +4,7 @@ const ThemeContext = createContext()
 
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('theme') || 'dark'
+    return localStorage.getItem('mh-theme') || 'dark'
   })
 
   useEffect(() => {
@@ -13,10 +13,10 @@ export function ThemeProvider({ children }) {
       root.classList.add('light')
       root.classList.remove('dark')
     } else {
-      root.classList.add('dark')
       root.classList.remove('light')
+      root.classList.add('dark')
     }
-    localStorage.setItem('theme', theme)
+    localStorage.setItem('mh-theme', theme)
   }, [theme])
 
   const toggle = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
