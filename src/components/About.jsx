@@ -1,4 +1,59 @@
 import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+
+function CountUp({ num, suffix, label, decimal }) {
+  const [count, setCount] = useState(0)
+  const ref = useRef(null)
+  const started = useRef(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true
+          const duration = 1800
+          const steps = 60
+          const increment = num / steps
+          let current = 0
+          let step = 0
+          const timer = setInterval(() => {
+            step++
+            current += increment
+            if (step >= steps) {
+              setCount(num)
+              clearInterval(timer)
+            } else {
+              setCount(parseFloat(current.toFixed(decimal ? 2 : 0)))
+            }
+          }, duration / steps)
+        }
+      },
+      { threshold: 0.5 }
+    )
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [num, decimal])
+
+  const display = num === 1000
+    ? '1K'
+    : decimal
+      ? count.toFixed(2)
+      : count
+
+  return (
+    <div
+      ref={ref}
+      className="rounded-xl border border-orange/15 bg-surface p-4 text-center"
+    >
+      <div className="font-grotesk font-bold text-3xl text-orange mb-1">
+        {display}{suffix}
+      </div>
+      <div className="font-mono text-white/40 text-xs leading-tight whitespace-pre-line">
+        {label}
+      </div>
+    </div>
+  )
+}
 
 const terminal1 = [
   { prompt: '➜', cmd: 'whoami', delay: 0.2 },
@@ -7,12 +62,12 @@ const terminal1 = [
 ]
 
 const stats = [
-  { label: 'OPERATOR',  value: 'MUHAMMAD HUSSAIN' },
-  { label: 'ROLE',      value: 'MERN STACK DEVELOPER' },
-  { label: 'LOCATION',  value: 'Islamabad, Pakistan' },
-  { label: 'STATUS',    value: 'ONLINE' },
-  { label: 'CGPA',      value: '3.37 / 4.0' },
-  { label: 'UNIVERSITY',value: 'Bahria University' },
+  { label: 'OPERATOR', value: 'MUHAMMAD HUSSAIN' },
+  { label: 'ROLE', value: 'MERN STACK DEVELOPER' },
+  { label: 'LOCATION', value: 'Islamabad, Pakistan' },
+  { label: 'STATUS', value: 'ONLINE' },
+  { label: 'CGPA', value: '3.37 / 4.0' },
+  { label: 'UNIVERSITY', value: 'Bahria University' },
 ]
 
 export default function About() {
@@ -88,7 +143,7 @@ export default function About() {
 
               <div className="border-t border-orange/10" />
 
-              
+
 
               {/* cat mission */}
               <motion.div
@@ -177,21 +232,14 @@ export default function About() {
             {/* Quick numbers */}
             <div className="grid grid-cols-3 gap-3">
               {[
-                { num: '3+',   label: 'Projects\nShipped' },
-                { num: '3.37', label: 'CGPA\nScore' },
-                { num: '1K+',  label: 'LinkedIn\nConnections' },
+                { num: 3, suffix: '+', label: 'Projects\nShipped', decimal: false },
+                { num: 3.37, suffix: '', label: 'CGPA\nScore', decimal: true },
+                { num: 1000, suffix: '+', label: 'LinkedIn\nConnections', decimal: false },
               ].map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-xl border border-orange/15 bg-surface p-4 text-center"
-                >
-                  <div className="font-grotesk font-bold text-3xl text-orange mb-1">{s.num}</div>
-                  <div className="font-mono text-white/40 text-base leading-tight whitespace-pre-line">{s.label}</div>
-                </div>
+                <CountUp key={s.label} {...s} />
               ))}
             </div>
 
-            
 
           </motion.div>
         </div>

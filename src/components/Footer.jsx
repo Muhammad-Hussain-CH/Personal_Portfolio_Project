@@ -27,7 +27,7 @@ export default function Footer() {
   return (
 
     <footer className="relative border-t-2 border-orange/30 bg-surface overflow-hidden">
-      {/* top glow line */}
+
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-orange to-transparent" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-12 bg-orange/10 blur-2xl pointer-events-none" />
 
