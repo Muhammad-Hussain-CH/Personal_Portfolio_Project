@@ -13,23 +13,23 @@ const LinkedInIcon = () => (
 )
 
 const navLinks = [
-  { label: 'About',          href: '#about' },
-  { label: 'Skills',         href: '#skills' },
+  { label: 'About', href: '#about' },
+  { label: 'Skills', href: '#skills' },
   { label: 'Certifications', href: '#certifications' },
-  { label: 'Education',      href: '#education' },
-  { label: 'Projects',       href: '#projects' },
-  { label: 'Contact',        href: '#contact' },
+  { label: 'Education', href: '#education' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Contact', href: '#contact' },
 ]
 
 export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="relative border-t border-orange/30 bg-surface overflow-hidden">
 
+    <footer className="relative border-t-2 border-orange/30 bg-surface overflow-hidden">
       {/* top glow line */}
-     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-orange to-transparent" />
-<div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-12 bg-orange/10 blur-2xl pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-px bg-gradient-to-r from-transparent via-orange to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-12 bg-orange/10 blur-2xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-6 py-8">
         <motion.div
@@ -86,26 +86,16 @@ export default function Footer() {
 
         </motion.div>
 
-        {/* bottom copyright line */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.3 }}
-          className="mt-6 pt-6 border-t border-orange/10 flex flex-col md:flex-row items-center justify-between gap-2"
+          className="mt-6 pt-6 border-t border-white/5 flex items-center justify-center"
         >
           <p className="font-mono text-xs text-white/20">
             © {year} Muhammad Hussain · All rights reserved
           </p>
-          <p className="font-mono text-xs text-white/20">
-            Designed & Developed with <span className="text-orange">♥</span> in Islamabad
-          </p>
-          <div className="flex items-center gap-1.5 font-mono text-xs text-white/20">
-            <span>Built with</span>
-            {['React', 'Vite', 'Tailwind'].map(t => (
-              <span key={t} className="px-1.5 py-0.5 rounded border border-orange/15 text-orange/40">{t}</span>
-            ))}
-          </div>
         </motion.div>
 
       </div>
