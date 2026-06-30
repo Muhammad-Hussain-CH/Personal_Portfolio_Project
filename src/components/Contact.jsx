@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, ArrowRight, MapPin } from 'lucide-react'
+import { Mail, ArrowRight, MapPin, CheckCircle, XCircle } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 
 const GitHubIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -44,19 +45,48 @@ const tokenColor = {
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [sent, setSent] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState('idle') // idle | loading | success | error
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    setLoading(true)
-    // mailto fallback — opens email client
-    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`)
-    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`)
-    window.open(`mailto:hussain900502@gmail.com?subject=${subject}&body=${body}`)
-    setTimeout(() => { setLoading(false); setSent(true) }, 800)
+    setStatus('loading')
+
+    console.log('SERVICE:', import.meta.env.VITE_EMAILJS_SERVICE_ID)
+    console.log('TEMPLATE:', import.meta.env.VITE_EMAILJS_TEMPLATE_ID)
+    console.log('PUBLIC KEY:', import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
+
+    const templateParams = {
+      from_name:    form.name,
+      from_email:   form.email,
+      message:      form.message,
+      to_name:      'Muhammad Hussain',
+    }
+
+    try {
+      // Send email to Muhammad
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+
+      // Send auto reply to sender
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_AUTOREPLY_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+
+      setStatus('success')
+      setForm({ name: '', email: '', message: '' })
+    } catch (err) {
+      console.error('EmailJS error:', err)
+      setStatus('error')
+    }
   }
 
   return (
@@ -92,14 +122,14 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="rounded-xl overflow-hidden border border-orange/15"
-            style={{ background: '#131212' }}
+            className="rounded-xl overflow-hidden border border-orange/15 contact-terminal"
+            style={{ background: '#1E1E1E' }}
           >
             {/* editor top bar */}
             <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5" style={{ background: '#2D2D2D' }}>
               <span style={{ width:'12px', height:'12px', borderRadius:'50%', background:'#FF5F57', display:'inline-block' }} />
-<span style={{ width:'12px', height:'12px', borderRadius:'50%', background:'#FFBD2E', display:'inline-block' }} />
-<span style={{ width:'12px', height:'12px', borderRadius:'50%', background:'#28C840', display:'inline-block' }} />
+              <span style={{ width:'12px', height:'12px', borderRadius:'50%', background:'#FFBD2E', display:'inline-block' }} />
+              <span style={{ width:'12px', height:'12px', borderRadius:'50%', background:'#28C840', display:'inline-block' }} />
               <span className="font-mono text-xs text-white/30 ml-2">portfolio.tsx</span>
               <span className="ml-auto w-2 h-2 rounded-full bg-orange animate-pulse" />
             </div>
@@ -107,7 +137,7 @@ export default function Contact() {
             {/* code lines */}
             <div className="p-5 font-mono text-sm leading-7">
               {codeLines.map(line => (
-                <div key={line.num} className="flex gap-4 group">
+                <div key={line.num} className="flex gap-4">
                   <span className="select-none w-5 text-right shrink-0" style={{ color: '#4A4A4A' }}>
                     {line.num}
                   </span>
@@ -122,14 +152,14 @@ export default function Contact() {
               ))}
             </div>
 
-            {/* bottom CTA buttons — exactly like abdulmomin */}
-            <div className="flex items-center gap-3 px-5 py-4 border-t border-white/5" style={{ background: '#2D2D2D' }}>
+            {/* bottom CTA buttons */}
+            <div className="flex items-center gap-3 px-5 py-4 border-t border-white/5 flex-wrap" style={{ background: '#2D2D2D' }}>
               <a
                 href="mailto:hussain900502@gmail.com"
                 className="flex items-center gap-2 px-5 py-2 rounded-md font-mono text-sm font-semibold transition-all duration-200"
                 style={{ background: '#F97316', color: '#120A08' }}
-onMouseEnter={e => { e.currentTarget.style.background='#ea6a0a'; e.currentTarget.style.transform='translateY(-2px)' }}
-onMouseLeave={e => { e.currentTarget.style.background='#F97316'; e.currentTarget.style.transform='translateY(0)' }}
+                onMouseEnter={e => { e.currentTarget.style.background='#ea6a0a'; e.currentTarget.style.transform='translateY(-2px)' }}
+                onMouseLeave={e => { e.currentTarget.style.background='#F97316'; e.currentTarget.style.transform='translateY(0)' }}
               >
                 <Mail size={14} />
                 Send Email
@@ -138,10 +168,10 @@ onMouseLeave={e => { e.currentTarget.style.background='#F97316'; e.currentTarget
                 href="https://linkedin.com/in/muhammad-hussain082"
                 target="_blank"
                 rel="noopener noreferrer"
-               className="flex items-center gap-2 px-5 py-2 rounded-md font-mono text-sm border transition-all duration-200"
-style={{ border: '1px solid rgba(255,255,255,0.12)', color: '#D4D4D4' }}
-onMouseEnter={e => { e.currentTarget.style.background='#0077B5'; e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='#0077B5' }}
-onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#D4D4D4'; e.currentTarget.style.borderColor='rgba(255,255,255,0.12)' }}
+                className="flex items-center gap-2 px-5 py-2 rounded-md font-mono text-sm border transition-all duration-200"
+                style={{ border: '1px solid rgba(255,255,255,0.12)', color: '#D4D4D4' }}
+                onMouseEnter={e => { e.currentTarget.style.background='#0077B5'; e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='#0077B5' }}
+                onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#D4D4D4'; e.currentTarget.style.borderColor='rgba(255,255,255,0.12)' }}
               >
                 <LinkedInIcon />
                 LinkedIn
@@ -151,9 +181,9 @@ onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTa
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-5 py-2 rounded-md font-mono text-sm border transition-all duration-200"
-style={{ border: '1px solid rgba(255,255,255,0.12)', color: '#D4D4D4' }}
-onMouseEnter={e => { e.currentTarget.style.background='#07802f'; e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='#666' }}
-onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#D4D4D4'; e.currentTarget.style.borderColor='rgba(255,255,255,0.12)' }}
+                style={{ border: '1px solid rgba(255,255,255,0.12)', color: '#D4D4D4' }}
+                onMouseEnter={e => { e.currentTarget.style.background='#333'; e.currentTarget.style.color='#fff'; e.currentTarget.style.borderColor='#666' }}
+                onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='#D4D4D4'; e.currentTarget.style.borderColor='rgba(255,255,255,0.12)' }}
               >
                 <GitHubIcon />
                 GitHub
@@ -171,34 +201,59 @@ onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTa
           >
             {/* form top bar */}
             <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-orange/10">
-              <span className="w-3 h-3 rounded-full bg-red/70" />
-              <span className="w-3 h-3 rounded-full bg-amber/70" />
-              <span className="w-3 h-3 rounded-full bg-orange/70" />
+              <span style={{ width:'12px', height:'12px', borderRadius:'50%', background:'#FF5F57', display:'inline-block' }} />
+              <span style={{ width:'12px', height:'12px', borderRadius:'50%', background:'#FFBD2E', display:'inline-block' }} />
+              <span style={{ width:'12px', height:'12px', borderRadius:'50%', background:'#28C840', display:'inline-block' }} />
               <span className="font-mono text-xs text-white/30 ml-2">new_message.js</span>
             </div>
 
             <div className="p-6">
-              {sent ? (
+              {/* success state */}
+              {status === 'success' && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center py-12 gap-4"
                 >
-                  <div className="w-14 h-14 rounded-full border-2 border-orange flex items-center justify-center">
-                    <span className="text-orange text-2xl">✓</span>
-                  </div>
+                  <CheckCircle size={48} className="text-orange" />
                   <p className="font-grotesk font-semibold text-white text-lg">Message Sent!</p>
                   <p className="font-mono text-white/40 text-sm text-center">
-                    Your email client should have opened.<br />I'll get back to you soon.
+                    You'll receive a confirmation email shortly.<br />
+                    I'll get back to you within 24 hours.
                   </p>
                   <button
-                    onClick={() => { setSent(false); setForm({ name: '', email: '', message: '' }) }}
+                    onClick={() => setStatus('idle')}
                     className="font-mono text-xs text-orange/60 hover:text-orange transition-colors mt-2"
                   >
                     Send another →
                   </button>
                 </motion.div>
-              ) : (
+              )}
+
+              {/* error state */}
+              {status === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center py-8 gap-4"
+                >
+                  <XCircle size={48} className="text-red" />
+                  <p className="font-grotesk font-semibold text-white text-lg">Something went wrong!</p>
+                  <p className="font-mono text-white/40 text-sm text-center">
+                    Please try emailing directly at<br />
+                    <span className="text-orange">hussain900502@gmail.com</span>
+                  </p>
+                  <button
+                    onClick={() => setStatus('idle')}
+                    className="font-mono text-xs text-orange/60 hover:text-orange transition-colors mt-2"
+                  >
+                    Try again →
+                  </button>
+                </motion.div>
+              )}
+
+              {/* form */}
+              {(status === 'idle' || status === 'loading') && (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
                   {/* name */}
@@ -213,7 +268,8 @@ onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTa
                       value={form.name}
                       onChange={handleChange}
                       placeholder='"Your full name"'
-                      className="w-full bg-bg border border-orange/15 rounded-md px-4 py-4 font-mono text-sm text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors"
+                      style={{ height: '52px' }}
+                      className="w-full bg-bg border border-orange/15 rounded-md px-4 font-mono text-sm text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors"
                     />
                   </div>
 
@@ -229,7 +285,8 @@ onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTa
                       value={form.email}
                       onChange={handleChange}
                       placeholder='"your@email.com"'
-                      className="w-full bg-bg border border-orange/15 rounded-md px-4 py-4 font-mono text-sm text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors"
+                      style={{ height: '52px' }}
+                      className="w-full bg-bg border border-orange/15 rounded-md px-4 font-mono text-sm text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors"
                     />
                   </div>
 
@@ -241,21 +298,21 @@ onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTa
                     <textarea
                       name="message"
                       required
-                      rows={5}
+                      rows={6}
                       value={form.message}
                       onChange={handleChange}
                       placeholder='"Hi Muhammad, I would like to..."'
-                      className="w-full bg-bg border border-orange/15 rounded-md px-4 py-4 font-mono text-sm text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors resize-none"
+                      className="w-full bg-bg border border-orange/15 rounded-md px-4 py-3 font-mono text-sm text-white placeholder-white/20 focus:outline-none focus:border-orange/50 transition-colors resize-none"
                     />
                   </div>
 
                   {/* submit */}
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={status === 'loading'}
                     className="flex items-center justify-center gap-2 w-full py-3 rounded-md font-grotesk font-semibold text-sm bg-orange text-bg hover:bg-orange/90 transition-all duration-200 disabled:opacity-60"
                   >
-                    {loading ? (
+                    {status === 'loading' ? (
                       <span className="font-mono text-sm animate-pulse">Sending...</span>
                     ) : (
                       <>
@@ -266,7 +323,7 @@ onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTa
                   </button>
 
                   <p className="font-mono text-xs text-white/20 text-center">
-                    Opens your email client · Direct reply to hussain900502@gmail.com
+                    You'll receive a confirmation email instantly
                   </p>
                 </form>
               )}
@@ -280,7 +337,7 @@ onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTa
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}
-          className="flex flex-wrap justify-center gap-6 mt-16 pb-4 border-t border-orange/10 pt-10"
+          className="flex flex-wrap justify-center gap-6 mt-16 pt-10 border-t border-orange/10"
         >
           {[
             { icon: <Mail size={13} />, text: 'hussain900502@gmail.com', href: 'mailto:hussain900502@gmail.com' },
@@ -288,13 +345,8 @@ onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTa
             { icon: <GitHubIcon />, text: 'Muhammad-Hussain-CH', href: 'https://github.com/Muhammad-Hussain-CH' },
           ].map((item, i) => (
             item.href ? (
-              <a
-                key={i}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 font-mono text-xs text-white/30 hover:text-orange transition-colors"
-              >
+              <a key={i} href={item.href} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 font-mono text-xs text-white/30 hover:text-orange transition-colors">
                 <span className="text-orange/60">{item.icon}</span>
                 {item.text}
               </a>
